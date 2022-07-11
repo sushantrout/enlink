@@ -1,16 +1,25 @@
 <p-card>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-12 text-right">
-                <i class="pi pi-eye p-button" style="font-size: 1rem;" (click)="zoom = !zoom"></i>
-            </div>
-            <p-chart [type]="graphType" [data]="data"></p-chart>
-        </div>
+  <div class="row">
+    <div class="col-md-12" style="text-align: right;">
+      <i
+        class="pi pi-eye p-button"
+        style="font-size: 1rem;"
+        (click)="zoom = !zoom"
+      ></i>
     </div>
+    <div class="col-md-12">
+      <p-chart [type]="graphType" [data]="data" #voltageChart></p-chart>
+    </div>
+  </div>
 </p-card>
-<p-dialog [header]="header" [(visible)]="zoom" style="margin-top: 5px;">
-    <p-chart [type]="graphType" [data]="data" height="55vh" width="70vw"></p-chart>
-    <ng-template pTemplate="footer">
-        <button pButton type="button" label="Close" (click)="zoom = false"></button>
-    </ng-template>
+<p-dialog [header]="header" [(visible)]="zoom" style="margin-top: 5px">
+  <p-chart
+    [type]="graphType"
+    [data]="data"
+    height="55vh"
+    width="70vw"
+  ></p-chart>
+  <ng-template pTemplate="footer">
+    <button pButton type="button" label="Close" (click)="zoom = false"></button>
+  </ng-template>
 </p-dialog>

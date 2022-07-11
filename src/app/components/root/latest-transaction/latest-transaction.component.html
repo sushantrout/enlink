@@ -1,24 +1,29 @@
 <p-card>
-  <p-table [value]="transactions" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" 
-currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]">
-  <ng-template pTemplate="header">
-    <tr>
-      <th>Last Communication Time</th>
-      <th>IMEI</th>
-      <th>Voltage</th>
-      <th>Current</th>
-      <th>Temperature</th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-data>
-    <tr>
-      <td>{{ data.date}}</td>
-      <td>{{ data.imeiNumber }}</td>
-      <td>{{ data.date }}</td>
-      <td>{{ data.date }}</td>
-      <td>{{ data.date }}</td>
-    </tr>
-  </ng-template>
-</p-table>
-
+  <p-table
+    [value]="transactions"
+    [paginator]="true"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[10, 25, 50]"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="date">Last Communication Time <p-sortIcon field="date"></p-sortIcon></th>
+        <th pSortableColumn="imeiNumber">IMEI <p-sortIcon field="imeiNumber"></p-sortIcon></th>
+        <th pSortableColumn="date">Voltage <p-sortIcon field="date"></p-sortIcon></th>
+        <th pSortableColumn="date">Current <p-sortIcon field="date"></p-sortIcon></th>
+        <th pSortableColumn="date">Temperature <p-sortIcon field="date"></p-sortIcon></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-data>
+      <tr>
+        <td>{{ data.date }}</td>
+        <td>{{ data.imeiNumber }}</td>
+        <td>{{ data.date }}</td>
+        <td>{{ data.date }}</td>
+        <td>{{ data.date }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
 </p-card>
