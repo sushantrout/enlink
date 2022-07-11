@@ -6,6 +6,12 @@ import { LatestTransactionComponent } from './latest-transaction/latest-transact
 import { TransactionMapComponent } from './transaction-map/transaction-map.component';
 import { TransactionGraphComponent } from './transaction-graph/transaction-graph.component';
 import { TableModule } from 'primeng/table';
+import { ChartModule } from 'primeng/chart';
+import { DropdownModule } from 'primeng/dropdown';
+import { FormsModule } from '@angular/forms';
+import { DialogModule } from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
 
 const routes: Routes = [
   {
@@ -22,7 +28,17 @@ const routes: Routes = [
     TransactionGraphComponent,
     RootComponent,
   ],
-  imports: [CommonModule, RouterModule.forChild(routes), TableModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    FormsModule,
+    TableModule,
+    ChartModule,
+    DropdownModule,
+    DialogModule,
+    ButtonModule,
+    CardModule,
+  ],
   exports: [RouterModule],
 })
 export class RootModule {}
