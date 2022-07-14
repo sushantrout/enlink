@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { TransactionService } from 'src/app/serviceses/transaction.service';
 import { TransactionUtil } from 'src/app/util/transaction.util';
 
@@ -13,12 +13,15 @@ export class TransactiondashboardComponent implements OnInit {
   chart1: any;
   transactions: any;
   transactionUtil = new TransactionUtil();
+
+  @Output() receiveChartEvent = new EventEmitter<string>();
+
   constructor(private transactionService: TransactionService) {}
 
   ngOnInit(): void {
     this.transactionService.get().subscribe((res: any) => {
       this.transactions = res['success'];
-      let datasets: any = [];
+
       let dataGroup = this.transactionUtil.groupBy(
         this.transactions,
         (t: any) => t.imeiNumber
@@ -73,12 +76,14 @@ export class TransactiondashboardComponent implements OnInit {
 
       })
 
+      let curr = this;
       let voltageData = {
         animationEnabled: true,
         title: {
           text: 'Voltage',
         },
         data: [{
+          click: (e : any) => {curr.chartEvent.bind(this)(e)},
           type: "pie",
           startAngle: 240,
           yValueFormatString: "",
@@ -94,6 +99,7 @@ export class TransactiondashboardComponent implements OnInit {
         },
         data: [{
           type: "pie",
+          click: (e : any) => {curr.chartEvent.bind(this)(e)},
           startAngle: 240,
           yValueFormatString: "",
           indexLabel: "{label} {y}",
@@ -108,6 +114,7 @@ export class TransactiondashboardComponent implements OnInit {
         },
         data: [{
           type: "pie",
+          click: (e : any) => {curr.chartEvent.bind(this)(e)},
           startAngle: 240,
           yValueFormatString: "",
           indexLabel: "{label} {y}",
@@ -134,5 +141,21 @@ export class TransactiondashboardComponent implements OnInit {
       e.dataSeries.visible = true;
     }
     this.chart1.render();
+  }
+
+  /* e:{ 
+    x, 
+    y,
+          chart,
+    dataPoint, 
+    dataSeries, 
+    dataPointIndex, 
+    dataSeriesIndex
+  } */
+
+  chartEvent(event : any) {
+    if(event.dataPoint?.label) {
+      this.receiveChartEvent.emit(event.dataPoint);
+    }
   }
 }

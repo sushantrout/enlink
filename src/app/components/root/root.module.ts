@@ -13,7 +13,6 @@ import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { TransactiondashboardComponent } from './transactiondashboard/transactiondashboard.component';
-import {ToastModule} from 'primeng/toast';
 
 const routes: Routes = [
   {
@@ -40,8 +39,7 @@ const routes: Routes = [
     DropdownModule,
     DialogModule,
     ButtonModule,
-    CardModule,
-    ToastModule
+    CardModule
   ],
   exports: [RouterModule],
 })
