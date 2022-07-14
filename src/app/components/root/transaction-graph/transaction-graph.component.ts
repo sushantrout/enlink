@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TransactionService } from 'src/app/serviceses/transaction.service';
+import { TransactionUtil } from 'src/app/util/transaction.util';
+declare var CanvasJS: any;
 
 @Component({
   selector: 'app-transaction-graph',
@@ -15,72 +17,88 @@ export class TransactionGraphComponent implements OnInit {
   transactions: any = [];
   basicOptions: any;
 
+  chart1: any;
+  chart2: any;
+
+  transactionUtil = new TransactionUtil();
   @ViewChild('voltageChart') voltageChart: any;
   constructor(private transactionService: TransactionService) {}
 
   ngOnInit(): void {
     this.transactionService.get().subscribe((res: any) => {
       this.transactions = res['success'];
-      let dataGroup = this.groupBy(this.transactions, (t: any) => t.imeiNumber);
+      let datasets: any = [];
+      let dataGroup = this.transactionUtil.groupBy(this.transactions, (t: any) => t.imeiNumber);
 
-      this.data = {
-        labels: [],
-        datasets: [],
-      };
       dataGroup.forEach((value: any, key: string) => {
-        if ('32432423423432423423\n4' == key) {
-          let currentData: any = {};
-          currentData.label = key;
-          currentData.fill = false;
-          currentData.tension = 0.4;
-          currentData.data = [];
-          currentData.borderColor = this.generateRandomColor();
-          for (let v of value) {
-            let voltage = this.getNumberValue(v.pvOrDCVoltage);
-            let current = this.getNumberValue(v.pvCurrent);
+        let data: any = {
+          name: key,
+          type: 'spline',
+          showInLegend: true,
+        };
 
-            let data = voltage * current;
-            currentData.data.push(data);
-          }
-          if (currentData.data.length != 0) {
-            this.data.labels.push(key);
-            this.data.datasets.push(currentData);
-          }
+        data['dataPoints'] = [];
+        for (let val of value) {
+          let voltage = this.transactionUtil.getNumberValue(val.pvOrDCVoltage);
+          let current = this.transactionUtil.getNumberValue(val.pvCurrent);
+
+          let power = voltage * current;
+          let cP = { x: new Date(this.transactionUtil.converToDate(val.date)), y: power };
+          data.dataPoints.push(cP);
         }
+
+        datasets.push(data);
       });
+
+      let cur = this;
+
+      let chartData = {
+        animationEnabled: true,
+        title: {
+          text: 'Power',
+        },
+        axisX: {
+          valueFormatString: 'DD MMM,YY HH:mm:ss',
+          labelAngle: 130,
+        },
+        axisY: {
+          title: 'Power',
+          suffix: ' WATT',
+        },
+        legend: {
+          cursor: 'pointer',
+          fontSize: 13,
+          itemclick: cur.toggleDataSeries.bind(this),
+        },
+        toolTip: {
+          shared: true,
+        },
+        data: datasets,
+      };
+      this.chart1 = new CanvasJS.Chart('chartContainer', chartData);
+      this.chart1.render();
     });
   }
-  getNumberValue(ele: string): number {
-    let nValue: string = '';
 
-    if (ele) {
-      for (let index = 0; index < ele.length; index++) {
-        let cEle = ele[index];
-        if (['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'].includes(cEle)) {
-          nValue = nValue + cEle;
-        } else {
-          break;
-        }
-      }
+  toggleDataSeriesLarge(e: any) {
+    if (typeof e.dataSeries.visible === 'undefined' || e.dataSeries.visible) {
+      e.dataSeries.visible = false;
     } else {
-      return 0;
+      e.dataSeries.visible = true;
     }
-    return Number(nValue);
+    this.chart1.render();
   }
 
-  groupBy(list: any, keyGetter: any) {
-    const map = new Map();
-    list.forEach((item: any) => {
-      const key = keyGetter(item);
-      const collection = map.get(key);
-      if (!collection) {
-        map.set(key, [item]);
-      } else {
-        collection.push(item);
-      }
-    });
-    return map;
+  toggleDataSeries(e: any) {
+    if (typeof e.dataSeries.visible === 'undefined' || e.dataSeries.visible) {
+      e.dataSeries.visible = false;
+    } else {
+      e.dataSeries.visible = true;
+    }
+    this.chart1.render();
   }
+
+  
 
   reinit() {
     setTimeout(() => {
@@ -88,12 +106,10 @@ export class TransactionGraphComponent implements OnInit {
     }, 10);
   }
 
-  generateRandomColor() {
-    let letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
+  zoomGraph() {
+    this.zoom = true;
+    setTimeout(() => {
+      this.chart2.render();
+    }, 1);
   }
 }

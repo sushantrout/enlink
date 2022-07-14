@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { TransactiondashboardComponent } from './transactiondashboard/transactiondashboard.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,7 @@ const routes: Routes = [
     TransactionMapComponent,
     TransactionGraphComponent,
     RootComponent,
+    TransactiondashboardComponent,
   ],
   imports: [
     CommonModule,

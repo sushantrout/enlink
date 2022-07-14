@@ -4,21 +4,17 @@
       <i
         class="pi pi-eye p-button"
         style="font-size: 1rem;"
-        (click)="zoom = !zoom"
+        (click)="zoomGraph()"
       ></i>
     </div>
     <div class="col-md-12">
-      <p-chart [type]="graphType" [data]="data" #voltageChart></p-chart>
+      <!-- <p-chart [type]="graphType" [data]="data" #voltageChart></p-chart> -->
+      <div id="chartContainer" style="height: 300px;width:400px" #currentChart></div>
     </div>
   </div>
 </p-card>
 <p-dialog [header]="header" [(visible)]="zoom" style="margin-top: 5px">
-  <p-chart
-    [type]="graphType"
-    [data]="data"
-    height="55vh"
-    width="70vw"
-  ></p-chart>
+  <div id="zoomChartContainer" #currentChart style="height: 50vh; width: 70vw"></div>
   <ng-template pTemplate="footer">
     <button pButton type="button" label="Close" (click)="zoom = false"></button>
   </ng-template>
