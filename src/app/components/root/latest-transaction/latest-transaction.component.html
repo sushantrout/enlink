@@ -1,19 +1,32 @@
 <p-card>
-  <!-- [paginator]="true"
-  [rows]="10" -->
-  <!-- currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-  [rowsPerPageOptions]="[10, 25, 50]" -->
+  <!--  -->
+  <!--  -->
   <p-table
+    [paginator]="true"
+    [rows]="10"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[10, 25, 50, 100, 500, 1000]"
+    [scrollable]="true" scrollHeight="40vh"
     [value]="transactions"
     [showCurrentPageReport]="true"
   >
     <ng-template pTemplate="header">
       <tr>
-        <th pSortableColumn="date">Last Communication Time <p-sortIcon field="date"></p-sortIcon></th>
-        <th pSortableColumn="imeiNumber">IMEI <p-sortIcon field="imeiNumber"></p-sortIcon></th>
-        <th pSortableColumn="pvOrDCVoltage">Voltage <p-sortIcon field="pvOrDCVoltage"></p-sortIcon></th>
-        <th pSortableColumn="pvCurrent">Current <p-sortIcon field="pvCurrent"></p-sortIcon></th>
-        <th pSortableColumn="deviceTemperature">Temperature <p-sortIcon field="deviceTemperature"></p-sortIcon></th>
+        <th pSortableColumn="date">
+          Last Communication Time <p-sortIcon field="date"></p-sortIcon>
+        </th>
+        <th pSortableColumn="imeiNumber">
+          IMEI <p-sortIcon field="imeiNumber"></p-sortIcon>
+        </th>
+        <th pSortableColumn="pvOrDCVoltage">
+          Voltage <p-sortIcon field="pvOrDCVoltage"></p-sortIcon>
+        </th>
+        <th pSortableColumn="pvCurrent">
+          Current <p-sortIcon field="pvCurrent"></p-sortIcon>
+        </th>
+        <th pSortableColumn="deviceTemperature">
+          Temperature <p-sortIcon field="deviceTemperature"></p-sortIcon>
+        </th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-data>
