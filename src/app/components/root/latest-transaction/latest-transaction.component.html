@@ -1,15 +1,48 @@
 <p-card>
-  <!--  -->
-  <!--  -->
   <p-table
+    #transactionTable
     [paginator]="true"
     [rows]="10"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
     [rowsPerPageOptions]="[10, 25, 50, 100, 500, 1000]"
-    [scrollable]="true" scrollHeight="40vh"
+    [scrollable]="true"
+    scrollHeight="40vh"
     [value]="transactions"
     [showCurrentPageReport]="true"
+    [globalFilterFields]="[
+      'imeiNumber',
+      'pvOrDCVoltage',
+      'pvCurrent',
+      'deviceTemperature'
+    ]"
   >
+    <ng-template pTemplate="caption">
+      <div class="text-right">
+        <button
+          pButton
+          label="Clear"
+          class="p-button-outlined"
+          icon="pi pi-filter-slash"
+          (click)="clear(transactionTable)"
+        ></button>
+        <span class="p-input-icon-right ml-auto">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            type="text"
+            class="p-inputtext"
+            (input)="
+              transactionTable.filterGlobal(
+                $any($event.target).value,
+                'contains'
+              )
+            "
+            [(ngModel)]="searchText"
+            placeholder="Search keyword"
+          />
+        </span>
+      </div>
+    </ng-template>
     <ng-template pTemplate="header">
       <tr>
         <th pSortableColumn="date">
