@@ -9,7 +9,7 @@ declare var CanvasJS: any;
   styleUrls: ['./transaction-graph.component.css'],
 })
 export class TransactionGraphComponent implements OnInit {
-  header = 'Hedaer Demo';
+  header = 'Power';
   zoom: boolean = false;
   data: any;
   graphType: string = 'line';
@@ -27,57 +27,66 @@ export class TransactionGraphComponent implements OnInit {
   ngOnInit(): void {
     this.transactionService.get().subscribe((res: any) => {
       this.transactions = res['success'];
-      let datasets: any = [];
-      let dataGroup = this.transactionUtil.groupBy(this.transactions, (t: any) => t.imeiNumber);
-
-      dataGroup.forEach((value: any, key: string) => {
-        let data: any = {
-          name: key,
-          type: 'spline',
-          showInLegend: true,
-        };
-
-        data['dataPoints'] = [];
-        for (let val of value) {
-          let voltage = this.transactionUtil.getNumberValue(val.pvOrDCVoltage);
-          let current = this.transactionUtil.getNumberValue(val.pvCurrent);
-
-          let power = voltage * current;
-          let cP = { x: new Date(this.transactionUtil.converToDate(val.date)), y: power };
-          data.dataPoints.push(cP);
-        }
-
-        datasets.push(data);
-      });
-
-      let cur = this;
-
-      let chartData = {
-        animationEnabled: true,
-        title: {
-          text: 'Power',
-        },
-        axisX: {
-          valueFormatString: 'DD MMM,YY HH:mm:ss',
-          labelAngle: 130,
-        },
-        axisY: {
-          title: 'Power',
-          suffix: ' WATT',
-        },
-        legend: {
-          cursor: 'pointer',
-          fontSize: 13,
-          itemclick: cur.toggleDataSeries.bind(this),
-        },
-        toolTip: {
-          shared: true,
-        },
-        data: datasets,
-      };
-      this.chart1 = new CanvasJS.Chart('chartContainer', chartData);
+      this.chart1 = this.randerChart('chartContainer');
       this.chart1.render();
     });
+  }
+  randerChart(id?: string) {
+    let datasets: any = [];
+    let dataGroup = this.transactionUtil.groupBy(
+      this.transactions,
+      (t: any) => t.imeiNumber
+    );
+
+    dataGroup.forEach((value: any, key: string) => {
+      let data: any = {
+        name: key,
+        type: 'spline',
+        showInLegend: true,
+      };
+
+      data['dataPoints'] = [];
+      for (let val of value) {
+        let voltage = this.transactionUtil.getNumberValue(val.pvOrDCVoltage);
+        let current = this.transactionUtil.getNumberValue(val.pvCurrent);
+
+        let power = voltage * current;
+        let cP = {
+          x: new Date(this.transactionUtil.converToDate(val.date)),
+          y: power,
+        };
+        data.dataPoints.push(cP);
+      }
+
+      datasets.push(data);
+    });
+
+    let cur = this;
+
+    let chartData = {
+      animationEnabled: true,
+      title: {
+        text: 'Power',
+      },
+      axisX: {
+        valueFormatString: 'DD MMM,YY HH:mm:ss',
+        labelAngle: 130,
+      },
+      axisY: {
+        title: 'Power',
+        suffix: ' WATT',
+      },
+      legend: {
+        cursor: 'pointer',
+        fontSize: 13,
+        itemclick: cur.toggleDataSeries.bind(this),
+      },
+      toolTip: {
+        shared: true,
+      },
+      data: datasets,
+    };
+    return new CanvasJS.Chart(id, chartData);
   }
 
   toggleDataSeriesLarge(e: any) {
@@ -95,10 +104,14 @@ export class TransactionGraphComponent implements OnInit {
     } else {
       e.dataSeries.visible = true;
     }
-    this.chart1.render();
+    if(!document.getElementById('zoomChartContainer')) {
+      this.chart1.render();
+    } else {
+      if(this.chart2) {
+        this.chart2.render()
+      }
+    }
   }
-
-  
 
   reinit() {
     setTimeout(() => {
@@ -109,6 +122,7 @@ export class TransactionGraphComponent implements OnInit {
   zoomGraph() {
     this.zoom = true;
     setTimeout(() => {
+      this.chart2 = this.randerChart('zoomChartContainer');
       this.chart2.render();
     }, 1);
   }
