@@ -15,6 +15,7 @@
       'pvCurrent',
       'deviceTemperature'
     ]"
+    styleClass="p-datatable-gridlines"
   >
     <ng-template pTemplate="caption">
       <div class="text-right">
@@ -45,30 +46,32 @@
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <th pSortableColumn="date">
-          Last Communication Time <p-sortIcon field="date"></p-sortIcon>
+        <th pSortableColumn="date" style="width: 15%">
+          Time <p-sortIcon field="date"></p-sortIcon>
         </th>
-        <th pSortableColumn="imeiNumber">
+        <th pSortableColumn="imeiNumber" style="width: 35%">
           IMEI <p-sortIcon field="imeiNumber"></p-sortIcon>
         </th>
-        <th pSortableColumn="pvOrDCVoltage">
+        <th pSortableColumn="pvOrDCVoltage" style="width: 15%">
           Voltage <p-sortIcon field="pvOrDCVoltage"></p-sortIcon>
         </th>
-        <th pSortableColumn="pvCurrent">
+        <th pSortableColumn="pvCurrent" style="width: 15%">
           Current <p-sortIcon field="pvCurrent"></p-sortIcon>
         </th>
-        <th pSortableColumn="deviceTemperature">
+        <th pSortableColumn="deviceTemperature" style="width: 20%">
           Temperature <p-sortIcon field="deviceTemperature"></p-sortIcon>
         </th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-data>
       <tr>
-        <td>{{ data.date }}</td>
-        <td>{{ data.imeiNumber }}</td>
-        <td>{{ data.pvOrDCVoltage }}</td>
-        <td>{{ data.pvCurrent }}</td>
-        <td>{{ data.deviceTemperature }}</td>
+        <td style="width: 15%">
+          {{ data.date | customDate | date: "medium" }}
+        </td>
+        <td style="width: 35%">{{ data.imeiNumber }}</td>
+        <td style="width: 15%">{{ data.pvOrDCVoltage }}</td>
+        <td style="width: 15%">{{ data.pvCurrent }}</td>
+        <td style="width: 20%">{{ data.deviceTemperature }}</td>
       </tr>
     </ng-template>
   </p-table>

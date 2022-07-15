@@ -11,9 +11,9 @@ export class TransactionMapComponent implements OnInit {
   @ViewChild('map')
   private mapContainer!: ElementRef<HTMLElement>;
 
-  constructor() {}
+  constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   ngAfterViewInit() {
     /* const myAPIKey = '07af25abc78043fb942ef7aaa31640ca';
@@ -55,20 +55,20 @@ export class TransactionMapComponent implements OnInit {
     const iconUrl = 'assets/images/map/marker-icon.png';
     let LeafIcon = L.Icon.extend({
       options: {
-          shadowUrl: undefined,
-          iconUrl: iconUrl,
-          iconSize:     [38, 95],
-          shadowSize:   [50, 64],
-          iconAnchor:   [22, 94],
-          shadowAnchor: [4, 62],
-          popupAnchor:  [-3, -76],
+        shadowUrl: undefined,
+        iconUrl: iconUrl,
+        iconSize: [24, 'auto'],
+        shadowSize: [50, 64],
+        iconAnchor: [22, 94],
+        shadowAnchor: [4, 62],
+        popupAnchor: [-3, -76],
       }
-  });
-  let icon = new LeafIcon();
+    });
+    let icon = new LeafIcon();
 
-    var marker = L.marker([12.35264476196476, 76.60936755115493],{
+    var marker = L.marker([12.35264476196476, 76.60936755115493], {
       icon,
-      alt:"Not Found"
+      alt: "Not Found"
     })
       .addTo(map)
       .bindPopup('Kyiv, Ukraine is the birthplace of Leaflet!');

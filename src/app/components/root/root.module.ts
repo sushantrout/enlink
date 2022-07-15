@@ -13,6 +13,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { TransactiondashboardComponent } from './transactiondashboard/transactiondashboard.component';
+import { DatePipe } from 'src/app/pipe/date.pipe';
 
 const routes: Routes = [
   {
@@ -29,6 +30,7 @@ const routes: Routes = [
     TransactionGraphComponent,
     RootComponent,
     TransactiondashboardComponent,
+    DatePipe
   ],
   imports: [
     CommonModule,
@@ -43,4 +45,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class RootModule {}
+export class RootModule { }

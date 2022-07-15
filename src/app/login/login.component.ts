@@ -12,15 +12,15 @@ import { LoginService } from '../serviceses/login.service';
 })
 export class LoginComponent implements OnInit {
   constructor(private loginService: LoginService,
-    private authService : AuthService,
-    private router : Router) {}
+    private authService: AuthService,
+    private router: Router) { }
 
   user!: UserModel;
 
   ngOnInit(): void {
     this.user = new UserModel();
-    //this.user.username = "info@karmatech.in";
-    //this.user.password = "karma@123";
+    this.user.username = "info@karmatech.in";
+    this.user.password = "karma@123";
   }
 
   login() {
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
       this.authService.setAuthData(authData);
       this.user = new UserModel();
       this.router.navigate(['/root']);
-    },  err => {
+    }, err => {
       alert("Invalid credentials")
     });
   }

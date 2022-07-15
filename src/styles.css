@@ -10,3 +10,24 @@
 .mr-10{
     margin-right: 10px;
 }
+
+.p-datatable-thead .p-sortable-column {
+  font-size: 13px !important;
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+  padding: 6px 5px !important;
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+  padding: 6px 5px !important;
+  font-size: 13px;
+}
+
+.p-inputtext{
+  padding: 6px 5px !important;
+}
+
+.p-button{
+  padding: 6px 5px !important;
+}
