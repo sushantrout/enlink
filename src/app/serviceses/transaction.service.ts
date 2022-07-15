@@ -23,6 +23,7 @@ export class TransactionService {
           filterData.push(cd)
         }
       }
+      filterData = filterData.sort((s:any, s1:any) => this.util.converToDate(s1.date).getTime() - this.util.converToDate(s.date).getTime());
       return { 'success': filterData };
     }));
   }
